@@ -1,4 +1,5 @@
 import React from 'react';
+import { createStore } from 'redux';
 import logo from './logo.svg';
 import './App.css';
 
@@ -24,3 +25,35 @@ function App() {
 }
 
 export default App;
+
+const defaultState = {
+  welcome: "Hi",
+  otherState: "Some stuff",
+  otherStates: "Some other stuff"
+}
+
+const greeting = (state = defaultState, action) => {
+  switch (action.type) {
+    case 'GREET_ME':
+      return { ...state, welcome: 'Hello GREET_ME' };
+    case 'GREET_WORLD':
+      return { ...state, welcome: 'Hello GREET_WORLD' };
+    case 'API':
+      return { ...state, welcome: action.apidata };
+    default:
+      return state;
+  }
+};
+
+const store = createStore(greeting);
+
+console.log(store.getState())
+
+const apidata = 'Something coming back from the api';
+
+store.dispatch({
+  type: 'API',
+  apidata: apidata
+})
+
+console.log(store.getState())
